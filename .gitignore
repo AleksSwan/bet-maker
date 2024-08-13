@@ -1,0 +1,57 @@
+# Ignore files
+!*.py
+mypy.ini
+
+# Ignore .env files containing sensitive information
+.env
+
+# Ignore log files
+*.log
+
+# Ignore Python cache and build files
+__pycache__/
+*.py[cod]
+*.so
+
+# Ignore Docker-specific files
+docker-compose.override.yml
+.dockerignore
+
+# Ignore build directories
+build/
+dist/
+
+# Ignore virtual environment directories
+venv/
+.env/
+.venv/
+
+# Ignore system-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE and editor-specific files
+
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Ignore coverage reports
+coverage/
+*.coverage
+.coverage.*
+
+# Ignore test results
+junit-xml/
+
+# Ignore any other sensitive or temporary files
+*.swp
+*.temp
+*.tmp
+_dugout/
+.vscode
+.python_packages
+.ruff_cache
+.mypy_cache
+.pytest_cache
+

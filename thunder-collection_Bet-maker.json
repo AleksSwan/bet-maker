@@ -1,0 +1,130 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "Bet-maker",
+    "collectionId": "165b3c3b-71f7-4a1f-90c4-620315f65780",
+    "dateExported": "2024-08-13T06:02:58.471Z",
+    "version": "1.2",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "5f4b60f2-31d8-4e19-9a84-cb40f2bcfafd",
+            "colId": "165b3c3b-71f7-4a1f-90c4-620315f65780",
+            "containerId": "",
+            "name": "get events from line-provider",
+            "url": "http://127.0.0.1/line-provider/events",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-08-03T14:16:24.597Z",
+            "modified": "2024-08-11T13:03:23.516Z",
+            "headers": [
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder"
+                }
+            ]
+        },
+        {
+            "_id": "f84c6f09-bbc0-4a2e-a8cc-70d24a018eee",
+            "colId": "165b3c3b-71f7-4a1f-90c4-620315f65780",
+            "containerId": "",
+            "name": "create bet",
+            "url": "http://127.0.0.1/bets",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-08-03T14:16:49.583Z",
+            "modified": "2024-08-12T20:53:10.436Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"event_id\": \"1\",\n  \"amount\": 5.25\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "a401fca6-3d05-48b6-86f9-ddcd1f980031",
+            "colId": "165b3c3b-71f7-4a1f-90c4-620315f65780",
+            "containerId": "",
+            "name": "get bets",
+            "url": "http://127.0.0.1/bets",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-08-09T10:36:23.826Z",
+            "modified": "2024-08-09T11:07:02.442Z",
+            "headers": []
+        },
+        {
+            "_id": "6f134569-2e3a-4319-bb58-855d01861093",
+            "colId": "165b3c3b-71f7-4a1f-90c4-620315f65780",
+            "containerId": "",
+            "name": "get events",
+            "url": "http://127.0.0.1/events",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-08-11T12:54:45.839Z",
+            "modified": "2024-08-11T13:03:31.925Z",
+            "headers": [
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder"
+                }
+            ]
+        },
+        {
+            "_id": "87c1ecd8-9b4a-40c0-bc4b-fd102dedaf28",
+            "colId": "165b3c3b-71f7-4a1f-90c4-620315f65780",
+            "containerId": "",
+            "name": "event create/update",
+            "url": "http://127.0.0.1/line-provider/event",
+            "method": "PUT",
+            "sortNum": 40000,
+            "created": "2024-08-11T16:06:58.161Z",
+            "modified": "2024-08-12T20:52:49.364Z",
+            "headers": [
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "  {\n    \"event_id\": \"5\",\n    \"coefficient\": \"1.6\",\n    \"deadline\": 1723992734,\n    \"state\": 1\n  }\n",
+                "form": []
+            }
+        },
+        {
+            "_id": "02d06ae6-9f75-47ef-a9bd-28341672dd4c",
+            "colId": "165b3c3b-71f7-4a1f-90c4-620315f65780",
+            "containerId": "",
+            "name": "health",
+            "url": "http://127.0.0.1/health",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2024-08-12T06:52:20.258Z",
+            "modified": "2024-08-12T21:01:50.891Z",
+            "headers": [
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder"
+                }
+            ]
+        },
+        {
+            "_id": "c19d7cdb-fd47-4dda-a65a-ea42025ff0e0",
+            "colId": "165b3c3b-71f7-4a1f-90c4-620315f65780",
+            "containerId": "",
+            "name": "check bets",
+            "url": "http://127.0.0.1/bets/check",
+            "method": "GET",
+            "sortNum": 60000,
+            "created": "2024-08-12T21:02:10.395Z",
+            "modified": "2024-08-12T21:02:35.512Z",
+            "headers": [
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder"
+                }
+            ]
+        }
+    ],
+    "ref": "WM2uneOvP8wKV3CFDOoHc-V4tUgXBusC2jAaoIc-0HEs8m-5GUGDgRHiwFtnrmN_IcwPElAfNKKLBqViEHtoIg"
+}

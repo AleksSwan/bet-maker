@@ -1,0 +1,114 @@
+version: '3.8'
+
+services:
+  zookeeper:
+    image: 'confluentinc/cp-zookeeper:7.7.0'
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    healthcheck:
+      test: ["CMD", "echo", "ruok", "|", "nc", "localhost", "2181", "|", "grep", "imok"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  kafka:
+    image: 'confluentinc/cp-kafka:7.7.0'
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"
+    healthcheck:
+      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9092"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - bet-maker
+      - line-provider
+
+  line-provider:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile.line_provider
+    container_name: line-provider
+    ports:
+      - "3001:3001"
+    environment:
+      - BET_MAKER_URL=http://bet-maker:3000
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    depends_on:
+      kafka:
+        condition: service_healthy
+      zookeeper:
+        condition: service_healthy
+
+  bet-maker:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile.bet_maker
+    container_name: bet-maker
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - LINE_PROVIDER_URL=http://line-provider:3001
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    command: >
+      sh -c "
+        echo 'Waiting for database...' &&
+        while ! nc -z postgres-bet-maker 5432; do
+          sleep 0.1
+        done &&
+        echo 'Database started' &&
+        alembic upgrade head &&
+        uvicorn app.main:app_bet_maker --host 0.0.0.0 --port 3000 --lifespan on
+      "
+    depends_on:
+      kafka:
+        condition: service_healthy
+      zookeeper:
+        condition: service_healthy
+      line-provider:
+        condition: service_started
+      redis:
+        condition: service_started
+      postgres-bet-maker:
+        condition: service_started
+
+  postgres-bet-maker:
+    image: postgres:13
+    container_name: postgres-bet-maker
+    volumes:
+      - postgres_bet_maker_data:/var/lib/postgresql/data
+      - ./init-db-bet-maker.sh:/docker-entrypoint-initdb.d/init-db.sh
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7.2.5
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_bet_maker_data:
