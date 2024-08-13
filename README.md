@@ -1,7 +1,3 @@
-Here’s the updated `README.md` without the paragraph about Environment Variables:
-
----
-
 # Bet Maker Service
 
 The Bet Maker Service is a FastAPI-based application that handles betting operations, event management, and integrates with Kafka, Redis, and PostgreSQL. The service is designed to be highly scalable and efficient, making use of asynchronous programming and Docker for containerization.
