@@ -52,8 +52,8 @@ services:
     ports:
       - "3001:3001"
     environment:
-      - BET_MAKER_URL=http://bet-maker:3000
-      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      BET_MAKER_URL: ${BET_MAKER_URL}
+      KAFKA_BOOTSTRAP_SERVERS: ${KAFKA_BOOTSTRAP_SERVERS}
     depends_on:
       kafka:
         condition: service_healthy
@@ -70,9 +70,9 @@ services:
     env_file:
       - .env
     environment:
-      - REDIS_URL=redis://redis:6379
-      - LINE_PROVIDER_URL=http://line-provider:3001
-      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      REDIS_URL: ${REDIS_URL}
+      LINE_PROVIDER_URL: ${LINE_PROVIDER_URL}
+      KAFKA_BOOTSTRAP_SERVERS: ${KAFKA_BOOTSTRAP_SERVERS}
     command: >
       sh -c "
         echo 'Waiting for database...' &&
@@ -98,6 +98,12 @@ services:
   postgres-bet-maker:
     image: postgres:13
     container_name: postgres-bet-maker
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      BET_MAKER_POSTGRES_DB: ${BET_MAKER_POSTGRES_DB}
+      BET_MAKER_DB_USER: ${BET_MAKER_DB_USER}
+      BET_MAKER_DB_PASSWORD: ${BET_MAKER_DB_PASSWORD}
     volumes:
       - postgres_bet_maker_data:/var/lib/postgresql/data
       - ./init-db-bet-maker.sh:/docker-entrypoint-initdb.d/init-db.sh
